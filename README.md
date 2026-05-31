@@ -91,16 +91,24 @@ AI-interview-system/
 ## 📸 Screenshots
 
 ### Login Page
+
+
 <img width="1920" height="1080" alt="Screenshot (160)" src="https://github.com/user-attachments/assets/0b443782-85dc-4153-b3f7-f935e6df1c42" />
 
 
+
 ### Dashboard
+
+
 <img width="1920" height="1080" alt="Screenshot (161)" src="https://github.com/user-attachments/assets/e8675e9b-9641-469a-a6a8-e543239f3169" />
+
 
 
 ### AI Evaluation
 
+
 <img width="1920" height="1080" alt="Screenshot (163)" src="https://github.com/user-attachments/assets/1dc785f1-5f5e-4f5a-b217-765f010b8d33" />
+
 
 
 ---

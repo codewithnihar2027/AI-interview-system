@@ -1,0 +1,19 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Database
+data/users.db
+
+# Environment files
+.env
+
+# PyCharm
+.idea/
+
+# Virtual Environment
+venv/
+.venv/
+
+test.py
+test_*.py

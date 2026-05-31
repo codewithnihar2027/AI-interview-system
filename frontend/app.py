@@ -8,6 +8,95 @@ from backend.dashboard import (
     highest_score,
     recent_attempts
 )
+from backend.auth import (
+    create_user,
+    login_user,
+    create_users_table
+)
+
+create_users_table()
+
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+
+if not st.session_state["logged_in"]:
+
+    st.markdown("""
+    <div style="
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    background: linear-gradient(135deg,#4f46e5,#7c3aed);
+    margin-bottom:20px;
+    ">
+    <h1 style="color:white;margin:0;">
+    🔐 AI Interview System
+    </h1>
+    <p style="color:white;">
+    Practice • Evaluate • Improve
+    </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    auth_mode = st.radio(
+        "Select",
+        ["Login", "Signup"]
+    )
+
+
+    username = st.text_input("Username")
+
+    password = st.text_input(
+        "Password",
+        type="password"
+    )
+
+    if auth_mode == "Signup":
+
+        email = st.text_input("Email")
+
+        if st.button("Create Account"):
+
+            success = create_user(
+                username,
+                email,
+                password
+            )
+
+            if success:
+                st.success(
+                    "Account created successfully!"
+                )
+            else:
+                st.error(
+                    "Username already exists."
+                )
+
+    else:
+
+        if st.button("Login"):
+
+            user = login_user(
+                username,
+                password
+            )
+
+            if user:
+
+                st.session_state["logged_in"] = True
+                st.session_state["username"] = username
+
+                st.rerun()
+
+            else:
+
+                st.error(
+                    "Invalid username or password."
+                )
+
+    st.stop()
+
+
 # ------------------------------------------------
 # PAGE CONFIG
 # ------------------------------------------------
@@ -25,15 +114,34 @@ st.markdown(load_css(), unsafe_allow_html=True)
 # ------------------------------------------------
 
 with st.sidebar:
+    with st.sidebar:
+        st.success(
+            f"Welcome, {st.session_state['username']} 👋"
+        )
+
+        if st.button("🚪 Logout"):
+            st.session_state["logged_in"] = False
+            st.rerun()
+
 
     st.title("🎯 AI Interview")
 
     st.markdown("---")
 
-    st.metric("Interviews", "0")
-    st.metric("Average Score", "0%")
-    st.metric("Best Score", "0%")
+    st.metric(
+        "Interviews",
+        total_attempts()
+    )
 
+    st.metric(
+        "Average Score",
+        f"{average_score()}%"
+    )
+
+    st.metric(
+        "Best Score",
+        f"{highest_score()}%"
+    )
     st.markdown("---")
 
     st.info("Practice interviews powered by Gemini AI")
@@ -42,13 +150,39 @@ with st.sidebar:
 # HERO SECTION
 # ------------------------------------------------
 
+# st.markdown("""
+# <div class="hero">
+# <h1>🤖 AI Interview Evaluation System</h1>
+# <p>Powered by Gemini AI</p>
+# </div>
+# """, unsafe_allow_html=True)
 st.markdown("""
-<div class="hero">
-<h1>🤖 AI Interview Evaluation System</h1>
-<p>Powered by Gemini AI</p>
+<div style="
+padding:20px;
+border-radius:20px;
+text-align:center;
+background: linear-gradient(135deg,#4f46e5,#7c3aed);
+margin-bottom:20px;
+">
+
+<h1 style="
+color:white;
+font-size:42px;
+margin-bottom:8px;
+">
+😊 AI Interview Evaluation System
+</h1>
+
+<p style="
+color:white;
+font-size:18px;
+margin:0;
+">
+Powered by Gemini AI
+</p>
+
 </div>
 """, unsafe_allow_html=True)
-
 # ------------------------------------------------
 # DASHBOARD
 # ------------------------------------------------
@@ -56,13 +190,22 @@ st.markdown("""
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("Questions Attempted", "12")
+    st.metric(
+        "Questions Attempted",
+        total_attempts()
+    )
 
 with col2:
-    st.metric("Average Score", "25%")
+    st.metric(
+        "Average Score",
+        f"{average_score()}%"
+    )
 
 with col3:
-    st.metric("Best Score", "76%")
+    st.metric(
+        "Best Score",
+        f"{highest_score()}%"
+    )
 
 st.markdown("---")
 
@@ -109,9 +252,19 @@ with col3:
 # GENERATE QUESTION
 # ------------------------------------------------
 
-if st.button("🚀 Generate AI Interview"):
+left, center, right = st.columns([1, 2, 1])
+
+with center:
+
+    generate_btn = st.button(
+        "🚀 Generate AI Interview",
+        use_container_width=True
+    )
+
+if generate_btn:
 
     with st.spinner("Generating AI Interview Question..."):
+
         data = generate_question(
             role,
             experience,
@@ -227,26 +380,35 @@ if "question" in st.session_state:
     # EVALUATE ANSWER
     # ------------------------------------------------
 
-if st.button("📊 Evaluate Answer"):
+    left, center, right = st.columns([1, 2, 1])
 
-    if answer.strip() == "":
-        st.warning("Please enter an answer.")
+    with center:
+        evaluate_btn = st.button(
+            "📊 Evaluate Answer",
+            use_container_width=True
+        )
 
-    else:
+    if evaluate_btn:
 
-        from backend.evaluator import evaluate_answer
-        from backend.parser import parse_feedback
+        if answer.strip() == "":
+            st.warning("Please enter an answer.")
 
-        with st.spinner("AI Evaluating Your Answer..."):
+        else:
 
-            feedback_text = evaluate_answer(
-                st.session_state["question"],
-                answer
-            )
+            from backend.evaluator import evaluate_answer
+            from backend.parser import parse_feedback
 
-            result = parse_feedback(
-                feedback_text
-            )
+            with st.spinner("AI Evaluating Your Answer..."):
+
+                feedback_text = evaluate_answer(
+                    st.session_state["question"],
+                    answer
+                )
+
+                result = parse_feedback(
+                    feedback_text
+                )
+
             from backend.history import save_attempt
 
             save_attempt(
@@ -256,8 +418,8 @@ if st.button("📊 Evaluate Answer"):
                 difficulty
             )
 
-        st.session_state["result"] = result
-        st.session_state["feedback_text"] = feedback_text
+            st.session_state["result"] = result
+            st.session_state["feedback_text"] = feedback_text
 
     # ------------------------------------------------
     # SHOW RESULT

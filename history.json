@@ -61,5 +61,47 @@
         "role": "Java Developer",
         "difficulty": "Easy",
         "date": "2026-05-30 21:57"
+    },
+    {
+        "question": "What is data cleaning, and why is it an important step in the data analysis process?",
+        "score": 0,
+        "role": "Data Analyst",
+        "difficulty": "Easy",
+        "date": "2026-05-31 12:30"
+    },
+    {
+        "question": "What is data cleaning, and why is it an important step in the data analysis process?",
+        "score": 0,
+        "role": "Data Analyst",
+        "difficulty": "Easy",
+        "date": "2026-05-31 12:30"
+    },
+    {
+        "question": "Explain the difference between a class and an object in Java. Provide a simple example of how you would create an object from a class.",
+        "score": 0,
+        "role": "Java Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-31 14:21"
+    },
+    {
+        "question": "What will be the output of the following Python code? Explain why, and how you would modify the code to perform integer division instead.\n\n```python\nx = 10\ny = 3\nresult = x / y\nprint(result)\n```",
+        "score": 5,
+        "role": "Python Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-31 14:28"
+    },
+    {
+        "question": "What will be the output of the following Python code? Explain why, and how you would modify the code to perform integer division instead.\n\n```python\nx = 10\ny = 3\nresult = x / y\nprint(result)\n```",
+        "score": 15,
+        "role": "Python Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-31 14:29"
+    },
+    {
+        "question": "What is the purpose of the `main` method in a Java application?",
+        "score": 80,
+        "role": "Java Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-31 14:39"
     }
 ]

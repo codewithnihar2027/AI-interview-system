@@ -35,32 +35,31 @@ def generate_question(role, experience, difficulty):
     # DETECT QUESTION TYPE
     # ------------------------------------------------
 
-    if (
-        ("explain" in question_lower or "describe" in question_lower)
-        and
-        (
-            "write" in question_lower
-            or "implement" in question_lower
-            or "code" in question_lower
-            or "program" in question_lower
-        )
-    ):
-        qtype = "mixed"
-
-    elif any(word in question_lower for word in [
-        "write",
-        "code",
-        "program",
+    if any(word in question_lower for word in [
+        "write a program",
+        "write code",
         "implement",
+        "coding question",
         "algorithm",
-        "function",
-        "class"
+        "debug",
+        "solve the problem",
+        "create a function"
     ]):
         qtype = "coding"
 
-    else:
+    elif any(word in question_lower for word in [
+        "explain",
+        "describe",
+        "difference",
+        "what is",
+        "why",
+        "advantages",
+        "disadvantages"
+    ]):
         qtype = "theory"
 
+    else:
+        qtype = "theory"
     # ------------------------------------------------
     # RETURN DATA
     # ------------------------------------------------

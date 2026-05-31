@@ -1,0 +1,65 @@
+[
+    {
+        "question": "Explain the purpose and components of the `public static void main(String[] args)` method signature in a Java program.",
+        "score": 25,
+        "role": "Java Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:01"
+    },
+    {
+        "question": "Explain the difference between `==` and `.equals()` in Java.",
+        "score": 65,
+        "role": "Java Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:07"
+    },
+    {
+        "question": "What are some key differences between a list and a tuple in Python?",
+        "score": 70,
+        "role": "Python Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:14"
+    },
+    {
+        "question": "Write a simple Java program that prints \"Hello, World!\" to the console. Briefly explain the purpose of the `public static void main(String[] args)` method in your program.",
+        "score": 5,
+        "role": "Java Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:22"
+    },
+    {
+        "question": "You are given a dataset of customer sales transactions, and you notice some values are missing or appear inconsistent (e.g., negative quantities, incorrect date formats). How would you approach identifying and addressing these data quality issues before starting your analysis?",
+        "score": 0,
+        "role": "Data Analyst",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:26"
+    },
+    {
+        "question": "Explain the significance of each keyword in the `public static void main(String[] args)` method signature in Java.",
+        "score": 0,
+        "role": "Java Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:32"
+    },
+    {
+        "question": "Describe the main difference between supervised and unsupervised learning, and give one example of a real-world application for each type.",
+        "score": 0,
+        "role": "AI/ML Engineer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:37"
+    },
+    {
+        "question": "Describe the main difference between supervised and unsupervised learning, and give one example of a real-world application for each type.",
+        "score": 0,
+        "role": "AI/ML Engineer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:38"
+    },
+    {
+        "question": "Explain the purpose of the `public static void main(String[] args)` method in a Java application. Describe what each keyword (`public`, `static`, `void`) signifies in this context.",
+        "score": 0,
+        "role": "Java Developer",
+        "difficulty": "Easy",
+        "date": "2026-05-30 21:57"
+    }
+]

@@ -1,115 +1,127 @@
-# 🎯 AI Interview System
+# 🤖 AI Interview Evaluation System
 
-An AI-powered Interview Preparation Platform built using Python, Streamlit, and Google Gemini API.
+An AI-powered interview preparation platform built using **Python, Streamlit, SQLite, and Google Gemini AI**.
 
-The system generates interview questions, evaluates answers, provides ideal solutions, supports voice answers, and tracks user performance through a dashboard.
+The system generates role-specific interview questions, accepts text or voice responses, evaluates answers using AI, and provides detailed feedback along with performance analytics.
 
 ---
 
 ## 🚀 Features
 
-### 📌 Interview Question Generation
-- Generate interview questions based on:
-  - Role
-  - Difficulty Level
-  - Interview Type
+### 🔐 User Authentication
 
-### ✍️ Text Answer Mode
-- Type answers directly in the editor
-- AI evaluates the response
+* User Signup
+* User Login
+* SQLite Database Integration
+* Session Management
 
-### 🎤 Voice Answer Mode
-- Record answers using microphone
-- Speech-to-Text conversion
-- AI evaluates spoken responses
+### 🎯 AI Interview Generation
+
+* Generate interview questions based on:
+
+  * Role
+  * Experience Level
+  * Difficulty Level
+* Powered by Google Gemini AI
+
+### 📝 Multiple Answer Modes
+
+* Text Answer
+* Voice Answer (Speech-to-Text)
+* Coding Answer Support
 
 ### 📊 AI Evaluation
-- Score out of 100
-- Strengths
-- Weaknesses
-- Suggestions for improvement
 
-### 📖 Ideal Answer Generator
-- View a model answer after evaluation
-- Beginner-friendly explanations
-- Example-based solutions
+* AI-based answer evaluation
+* Score Generation
+* Detailed Feedback
+* Ideal Answer Suggestions
 
 ### 📈 Performance Dashboard
-- Total Questions Attempted
-- Average Score
-- Highest Score
-- Recent Attempt History
 
-### 📄 Evaluation Report Download
-- Download interview evaluation reports
+* Questions Attempted
+* Average Score
+* Best Score
+* Recent Attempts History
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Technologies Used
 
-### Frontend
-- Streamlit
-
-### Backend
-- Python
-
-### AI Model
-- Google Gemini API
-
-### Speech Processing
-- SpeechRecognition
-- Streamlit Mic Recorder
-
-### Data Storage
-- JSON
-
-### Visualization
-- Pandas
+* Python
+* Streamlit
+* SQLite
+* Google Gemini AI
+* Speech Recognition
+* HTML/CSS
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-AI-Interview-System/
-│
-├── frontend/
-│   └── app.py
+AI-interview-system/
 │
 ├── backend/
-│   ├── question_generator.py
+│   ├── auth.py
 │   ├── evaluator.py
-│   ├── parser.py
-│   ├── speech_to_text.py
-│   ├── solution_generator.py
 │   ├── history.py
-│   └── dashboard.py
+│   ├── parser.py
+│   ├── question_generator.py
+│   ├── solution_generator.py
+│   └── speech_to_text.py
+│
+├── frontend/
+│   ├── app.py
+│   └── styles.py
 │
 ├── data/
-│   └── history.json
+│   └── users.db
+│
+├── screenshots/
+│   ├── login.png
+│   ├── dashboard.png
+│   └── evaluation.png
 │
 ├── config.py
 ├── requirements.txt
 └── README.md
 ```
 
-## 🎯 Future Improvements
+## 📸 Screenshots
 
-- User Authentication
-- Leaderboard
-- Interview Analytics
-- PDF Report Generation
-- Mock Interview Simulation
-- Progress Tracking Graphs
+### Login Page
+<img width="1920" height="1080" alt="Screenshot (160)" src="https://github.com/user-attachments/assets/0b443782-85dc-4153-b3f7-f935e6df1c42" />
+
+
+### Dashboard
+<img width="1920" height="1080" alt="Screenshot (161)" src="https://github.com/user-attachments/assets/e8675e9b-9641-469a-a6a8-e543239f3169" />
+
+
+### AI Evaluation
+
+<img width="1920" height="1080" alt="Screenshot (163)" src="https://github.com/user-attachments/assets/1dc785f1-5f5e-4f5a-b217-765f010b8d33" />
+
 
 ---
 
-## 👨‍💻 Author
+## 🎯 Future Improvements
 
-Meghna Rao
+* Password Encryption
+* Leaderboard System
+* Resume Upload Analysis
+* Interview Report Export (PDF)
+* Cloud Deployment
+* Multi-Language Support
 
-B.Tech CSE (AI & ML)
+---
 
-Passionate about AI, Data Science, and Software Development.
+## 👨‍💻 Team Members
+
+* Yaida Meghna
+* Sujal Kumar
+* Nihar Suman 
+* Amit Prasad Sharma
+* Nilanjan Panda
 
 ---

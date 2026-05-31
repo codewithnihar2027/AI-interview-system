@@ -4,25 +4,26 @@ def load_css():
 
    .hero{
     text-align:center;
-    padding:12px 20px;
-    border-radius:18px;
+    padding:18px;
+    border-radius:20px;
     background:linear-gradient(
-    135deg,
-    #4F46E5,
-    #7C3AED
+        135deg,
+        #4F46E5,
+        #7C3AED
     );
     color:white;
-    margin-bottom:15px;
+
+    width:25%;
+    margin:0 auto 25px auto;
 }
 
 .hero h1{
-    font-size:34px;
-    margin-bottom:3px;
+    font-size:42px;
+    margin-bottom:8px;
 }
 
 .hero p{
-    font-size:15px;
-    margin:0;
+    font-size:18px;
 }
     .question-card{
         padding:20px;

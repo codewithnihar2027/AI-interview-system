@@ -158,24 +158,26 @@ with st.sidebar:
 # """, unsafe_allow_html=True)
 st.markdown("""
 <div style="
-padding:20px;
+padding:10px;
 border-radius:20px;
 text-align:center;
 background: linear-gradient(135deg,#4f46e5,#7c3aed);
-margin-bottom:20px;
+margin:0 auto 20px auto;
+width:70%;
+max-width:900px;
 ">
 
 <h1 style="
 color:white;
-font-size:42px;
-margin-bottom:8px;
+font-size:28px;
+margin-bottom:5px;
 ">
 😊 AI Interview Evaluation System
 </h1>
 
 <p style="
 color:white;
-font-size:18px;
+font-size:14px;
 margin:0;
 ">
 Powered by Gemini AI

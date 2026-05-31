@@ -103,5 +103,12 @@
         "role": "Java Developer",
         "difficulty": "Easy",
         "date": "2026-05-31 14:39"
+    },
+    {
+        "question": "Imagine you are building a machine learning model to predict whether an email is spam or not.\n\n1.  Is this a supervised or unsupervised learning problem?\n2.  Briefly explain why it falls into that category.",
+        "score": 0,
+        "role": "AI/ML Engineer",
+        "difficulty": "Easy",
+        "date": "2026-05-31 15:20"
     }
 ]

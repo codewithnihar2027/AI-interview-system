@@ -599,68 +599,103 @@ if "result" in st.session_state:
             unsafe_allow_html=True
         )
 
-        # ==========================================
-        # DASHBOARD
-        # ==========================================
+    # ==========================================
+    # DASHBOARD
+    # ==========================================
 
-        st.markdown("---")
+    st.markdown("---")
 
-        st.header("📊 Performance Dashboard")
+    st.header("📊 Performance Dashboard")
 
-        col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-        with col1:
-            st.metric(
-                "Questions Attempted",
-                total_attempts(
-                    st.session_state["username"]
-                )
+    with col1:
+        st.metric(
+            "Questions Attempted",
+            total_attempts(
+                st.session_state["username"]
             )
-
-        with col2:
-            st.metric(
-                "Average Score",
-                average_score(
-                    st.session_state["username"]
-                )
-            )
-
-        with col3:
-            st.metric(
-                "Highest Score",
-                highest_score(
-                    st.session_state["username"]
-                )
-            )
-
-        # OUTSIDE THE COLUMNS
-        st.markdown("---")
-
-        st.subheader("📜 Recent Attempts")
-
-        history = recent_attempts(
-            st.session_state["username"]
         )
 
-        if history:
+    with col2:
+        st.metric(
+            "Average Score",
+            average_score(
+                st.session_state["username"]
+            )
+        )
 
-            df = pd.DataFrame(history)
+    with col3:
+        st.metric(
+            "Highest Score",
+            highest_score(
+                st.session_state["username"]
+            )
+        )
 
-            df = df[
-                [
-                    "question",
-                    "score",
-                    "role",
-                    "difficulty",
-                    "date"
-                ]
-            ]
+    # OUTSIDE THE COLUMNS
+    st.markdown("---")
 
-            st.dataframe(
-                df,
-                use_container_width=True
+    st.subheader("📜 Recent Attempts")
+
+    history = recent_attempts(
+        st.session_state["username"]
+    )
+
+    if history:
+
+        st.subheader("Score Trend")
+        chart_df = pd.DataFrame(history)
+        if len(chart_df) > 0:
+            chart_df = chart_df.iloc[::-1]
+
+            chart_df.index = range(
+                1,
+                len(chart_df) + 1
             )
 
-        else:
+            st.line_chart(
+                chart_df["score"]
+            )
+        st.subheader("Difficulty Distribution")
+        difficulty_df = pd.DataFrame(history)
 
-            st.info("No attempts found yet.")
+        difficulty_counts = (
+            difficulty_df["difficulty"]
+            .value_counts()
+        )
+        st.bar_chart(
+            difficulty_counts
+        )
+        st.subheader("🎯 Role-wise Interviews")
+
+        role_df = pd.DataFrame(history)
+        role_counts = (
+            role_df["role"]
+            .value_counts()
+        )
+        st.bar_chart(
+            role_counts
+        )
+
+        df = pd.DataFrame(history)
+
+        df = df[
+            [
+                "question",
+                "score",
+                "role",
+                "difficulty",
+                "date"
+                    
+            ]
+        ]
+
+        st.dataframe(
+            df,
+            use_container_width=True
+        )
+
+    else:
+
+        st.info("No attempts found yet.")

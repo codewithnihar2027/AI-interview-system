@@ -1,40 +1,120 @@
-import json
 import os
+import sqlite3
 
-def get_history():
+BASE_DIR = os.path.dirname(
+    os.path.dirname(__file__)
+)
 
-    if not os.path.exists("history.json"):
-        return []
-
-    with open("history.json", "r") as file:
-        return json.load(file)
-
-
-def total_attempts():
-
-    return len(get_history())
+DB_PATH = os.path.join(
+    BASE_DIR,
+    "data",
+    "users.db"
+)
 
 
-def average_score():
+def total_attempts(username):
 
-    data = get_history()
+    conn = sqlite3.connect(DB_PATH)
 
-    if len(data) == 0:
-        return 0
+    cursor = conn.cursor()
 
-    total = sum(item["score"] for item in data)
+    cursor.execute(
+        """
+        SELECT COUNT(*)
+        FROM interview_history
+        WHERE username = ?
+        """,
+        (username,)
+    )
 
-    return round(total / len(data), 2)
+    count = cursor.fetchone()[0]
+
+    conn.close()
+
+    return count
 
 
-def highest_score():
+def average_score(username):
 
-    data = get_history()
+    conn = sqlite3.connect(DB_PATH)
 
-    if len(data) == 0:
-        return 0
+    cursor = conn.cursor()
 
-    return max(item["score"] for item in data)
+    cursor.execute(
+        """
+        SELECT AVG(score)
+        FROM interview_history
+        WHERE username = ?
+        """,
+        (username,)
+    )
 
-def recent_attempts():
-    return get_history()[::-1]
+    avg = cursor.fetchone()[0]
+
+    conn.close()
+
+    return round(avg, 2) if avg else 0
+
+
+def highest_score(username):
+
+    conn = sqlite3.connect(DB_PATH)
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT MAX(score)
+        FROM interview_history
+        WHERE username = ?
+        """,
+        (username,)
+    )
+
+    highest = cursor.fetchone()[0]
+
+    conn.close()
+
+    return highest if highest else 0
+
+
+def recent_attempts(username):
+
+    conn = sqlite3.connect(DB_PATH)
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            question,
+            score,
+            role,
+            difficulty,
+            date
+        FROM interview_history
+        WHERE username = ?
+        ORDER BY id DESC
+        """,
+        (username,)
+    )
+
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    history = []
+
+    for row in rows:
+
+        history.append(
+            {
+                "question": row[0],
+                "score": row[1],
+                "role": row[2],
+                "difficulty": row[3],
+                "date": row[4]
+            }
+        )
+
+    return history

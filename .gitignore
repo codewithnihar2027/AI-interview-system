@@ -17,3 +17,9 @@ venv/
 
 test.py
 test_*.py
+
+.vscode/
+
+history_backup.json
+
+backend/solution_generator_backup.py

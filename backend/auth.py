@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import bcrypt
 
 # Database Path
 
@@ -48,13 +49,22 @@ def create_user(username, email, password):
 
     try:
 
+        hashed_password = bcrypt.hashpw(
+            password.encode("utf-8"),
+            bcrypt.gensalt()
+        ).decode("utf-8")
+
         cursor.execute(
             """
             INSERT INTO users
             (username, email, password)
             VALUES (?, ?, ?)
             """,
-            (username, email, password)
+            (
+                username,
+                email,
+                hashed_password
+            )
         )
 
         conn.commit()
@@ -83,16 +93,26 @@ def login_user(username, password):
         SELECT *
         FROM users
         WHERE username = ?
-        AND password = ?
         """,
-        (username, password)
+        (username,)
     )
 
     user = cursor.fetchone()
 
     conn.close()
 
-    return user
+    if not user:
+        return None
+
+    stored_hash = user[3]
+
+    if bcrypt.checkpw(
+        password.encode("utf-8"),
+        stored_hash.encode("utf-8")
+    ):
+        return user
+
+    return None
 
 
 # Run Test
@@ -100,20 +120,3 @@ def login_user(username, password):
 if __name__ == "__main__":
 
     create_users_table()
-
-    create_user(
-        "meghna",
-        "meghna@gmail.com",
-        "1234"
-    )
-
-    print(
-        login_user(
-            "meghna",
-            "1234"
-        )
-    )
-    create_user("sujal", "sujal@gmail.com", "1234")
-    create_user("amit", "amit@gmail.com", "1234")
-    create_user("nihar", "nihar@gmail.com", "1234")
-    create_user("nilanjan", "nilanjan@gmail.com", "1234")

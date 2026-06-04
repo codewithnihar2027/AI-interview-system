@@ -31,6 +31,11 @@ def audio_to_text(audio_file):
 
         return text
 
-    except Exception as e:
+    except sr.UnknownValueError:
+        return "Could not understand audio."
 
+    except sr.RequestError:
+        return "Speech recognition service unavailable."
+
+    except Exception as e:
         return f"Error: {str(e)}"

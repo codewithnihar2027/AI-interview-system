@@ -1,3 +1,12 @@
+import sys
+import os
+
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))
+    )
+)
+
 import streamlit as st
 import pandas as pd
 from styles import load_css
@@ -13,8 +22,12 @@ from backend.auth import (
     login_user,
     create_users_table
 )
+from backend.history import (
+    create_history_table
+)
 
 create_users_table()
+create_history_table()
 
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
@@ -130,17 +143,19 @@ with st.sidebar:
 
     st.metric(
         "Interviews",
-        total_attempts()
+        total_attempts(
+            st.session_state["username"]
+        )
     )
 
     st.metric(
         "Average Score",
-        f"{average_score()}%"
-    )
+        f"{average_score(st.session_state['username'])}%"
+    )   
 
     st.metric(
         "Best Score",
-        f"{highest_score()}%"
+        f"{highest_score(st.session_state['username'])}%"
     )
     st.markdown("---")
 
@@ -194,19 +209,21 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.metric(
         "Questions Attempted",
-        total_attempts()
+        total_attempts(
+            st.session_state["username"]
+        )
     )
 
 with col2:
     st.metric(
         "Average Score",
-        f"{average_score()}%"
+        f"{average_score(st.session_state['username'])}%"
     )
 
 with col3:
     st.metric(
         "Best Score",
-        f"{highest_score()}%"
+        f"{highest_score(st.session_state['username'])}%"
     )
 
 st.markdown("---")
@@ -414,6 +431,7 @@ if "question" in st.session_state:
             from backend.history import save_attempt
 
             save_attempt(
+                st.session_state["username"],
                 st.session_state["question"],
                 result["score"],
                 role,
@@ -440,6 +458,35 @@ if "result" in st.session_state:
     st.metric(
         "Final Score",
         f"{result['score']} / 100"
+    )
+    st.markdown("### 🧠 NLP Evaluation Breakdown")
+
+    m1, m2, m3 = st.columns(3)
+
+    with m1:
+        st.metric(
+            "Semantic Similarity",
+            f"{result['semantic']:.2f}%"
+        )
+
+    with m2:
+        st.metric(
+            "Keyword Coverage",
+            f"{result['keyword']:.2f}%"
+        )
+
+    with m3:
+        st.metric(
+            "Completeness",
+            f"{result['completeness']:.2f}%"
+        )
+
+    st.info(
+        f"Final Score = "
+        f"(0.7 × {result['semantic']}) + "
+        f"(0.2 × {result['keyword']}) + "
+        f"(0.1 × {result['completeness']}) "
+        f"= {result['score']}"
     )
 
     c1, c2, c3 = st.columns(3)
@@ -511,12 +558,7 @@ if "result" in st.session_state:
 
 
     if show_solution:
-        from backend.solution_generator import generate_solution
-
-        with st.spinner("Generating ideal answer..."):
-            solution = generate_solution(
-                st.session_state["question"]
-            )
+        solution = result["ideal_answer"]
 
         st.markdown("""
         <style>
@@ -570,19 +612,25 @@ if "result" in st.session_state:
         with col1:
             st.metric(
                 "Questions Attempted",
-                total_attempts()
+                total_attempts(
+                    st.session_state["username"]
+                )
             )
 
         with col2:
             st.metric(
                 "Average Score",
-                average_score()
+                average_score(
+                    st.session_state["username"]
+                )
             )
 
         with col3:
             st.metric(
                 "Highest Score",
-                highest_score()
+                highest_score(
+                    st.session_state["username"]
+                )
             )
 
         # OUTSIDE THE COLUMNS
@@ -590,7 +638,9 @@ if "result" in st.session_state:
 
         st.subheader("📜 Recent Attempts")
 
-        history = recent_attempts()
+        history = recent_attempts(
+            st.session_state["username"]
+        )
 
         if history:
 

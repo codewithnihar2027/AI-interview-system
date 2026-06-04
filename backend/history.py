@@ -1,35 +1,102 @@
-import json
 import os
+import sqlite3
 from datetime import datetime
 
-FILE_NAME = "history.json"
+BASE_DIR = os.path.dirname(
+    os.path.dirname(__file__)
+)
+
+DB_PATH = os.path.join(
+    BASE_DIR,
+    "data",
+    "users.db"
+)
 
 
-def save_attempt(question, score, role, difficulty):
+def create_history_table():
 
-    data = []
+    conn = sqlite3.connect(DB_PATH)
 
-    if os.path.exists(FILE_NAME):
+    cursor = conn.cursor()
 
-        with open(FILE_NAME, "r") as f:
-            data = json.load(f)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS interview_history(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT,
+            question TEXT,
+            score REAL,
+            role TEXT,
+            difficulty TEXT,
+            date TEXT
+        )
+    """)
 
-    data.append({
-        "question": question,
-        "score": score,
-        "role": role,
-        "difficulty": difficulty,
-        "date": datetime.now().strftime("%Y-%m-%d %H:%M")
-    })
+    conn.commit()
+    conn.close()
 
-    with open(FILE_NAME, "w") as f:
-        json.dump(data, f, indent=4)
+
+def save_attempt(
+        username,
+        question,
+        score,
+        role,
+        difficulty
+):
+
+    conn = sqlite3.connect(DB_PATH)
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO interview_history
+        (
+            username,
+            question,
+            score,
+            role,
+            difficulty,
+            date
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (
+            username,
+            question,
+            score,
+            role,
+            difficulty,
+            datetime.now().strftime(
+                "%Y-%m-%d %H:%M"
+            )
+        )
+    )
+
+    conn.commit()
+    conn.close()
 
 
 def load_history():
 
-    if not os.path.exists(FILE_NAME):
-        return []
+    conn = sqlite3.connect(DB_PATH)
 
-    with open(FILE_NAME, "r") as f:
-        return json.load(f)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            username,
+            question,
+            score,
+            role,
+            difficulty,
+            date
+        FROM interview_history
+        """
+    )
+
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    return rows

@@ -11,6 +11,7 @@ import streamlit as st
 import pandas as pd
 from styles import load_css
 from backend.question_generator import generate_question
+from backend.pdf_generator import generate_pdf_report   
 from backend.dashboard import (
     total_attempts,
     average_score,
@@ -427,6 +428,11 @@ if "question" in st.session_state:
                 result = parse_feedback(
                     feedback_text
                 )
+                result["question"] = st.session_state["question"]
+
+                result["candidate_answer"] = answer
+
+                result["username"] = st.session_state["username"]
 
             from backend.history import save_attempt
 
@@ -483,7 +489,7 @@ if "result" in st.session_state:
 
     st.info(
         f"Final Score = "
-        f"(0.7 × {result['semantic']}) + "
+        f"(0.7 × {result['semantic']:.2f}) + "
         f"(0.2 × {result['keyword']}) + "
         f"(0.1 × {result['completeness']}) "
         f"= {result['score']}"
@@ -512,11 +518,12 @@ if "result" in st.session_state:
         for item in result["suggestions"]:
             st.write("•", item)
 
+    pdf_file = generate_pdf_report(result)
     st.download_button(
-        label="📄 Download Evaluation Report",
-        data=st.session_state["feedback_text"],
-        file_name="Interview_Report.txt",
-        mime="text/plain"
+        label="📄 Download PDF Report",
+        data=pdf_file,
+        file_name="Interview_Report.pdf",
+        mime="application/pdf"
     )
     st.markdown("""
     <style>
@@ -636,7 +643,7 @@ if "result" in st.session_state:
     # OUTSIDE THE COLUMNS
     st.markdown("---")
 
-    st.subheader("📜 Recent Attempts")
+    st.subheader("📈 Analytics Dashboard")
 
     history = recent_attempts(
         st.session_state["username"]
@@ -690,7 +697,7 @@ if "result" in st.session_state:
                     
             ]
         ]
-
+        st.subheader("📜 Recent Attempts")
         st.dataframe(
             df,
             use_container_width=True

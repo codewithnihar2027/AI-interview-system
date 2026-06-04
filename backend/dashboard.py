@@ -118,3 +118,4 @@ def recent_attempts(username):
         )
 
     return history
+

@@ -19,3 +19,4 @@ reportlab==4.5.1
 Pillow==12.2.0
 
 protobuf==5.29.6
+bcrypt==5.0.0
